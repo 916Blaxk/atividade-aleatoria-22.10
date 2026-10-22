@@ -1,0 +1,22 @@
+# Arquivos de ambiente com credenciais reais
+.env
+.env.local
+
+# Dependências
+node_modules/
+
+# Build do Next.js
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/settings.json
+.idea/

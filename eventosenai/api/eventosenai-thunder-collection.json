@@ -1,0 +1,199 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "EventoSENAI - API Tests",
+  "collectionId": "eventosenai-collection-001",
+  "dateExported": "2026-10-22",
+  "version": "1.1",
+  "folders": [
+    { "id": "f1", "name": "Eventos", "containerId": "" },
+    { "id": "f2", "name": "Participantes", "containerId": "" },
+    { "id": "f3", "name": "Inscrições", "containerId": "" }
+  ],
+  "requests": [
+    {
+      "id": "r01", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "1. Listar todos os eventos",
+      "url": "http://localhost:3333/eventos",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 200,
+      "_note": "Deve retornar array de eventos com categoria, total_inscritos e vagas_restantes"
+    },
+    {
+      "id": "r02", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "2. Buscar evento existente (id=1)",
+      "url": "http://localhost:3333/eventos/1",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 200
+    },
+    {
+      "id": "r03", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "3. Buscar evento inexistente (id=9999)",
+      "url": "http://localhost:3333/eventos/9999",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 404,
+      "_expectedBody": { "erro": "Evento não encontrado." }
+    },
+    {
+      "id": "r04", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "4. Criar evento válido",
+      "url": "http://localhost:3333/eventos",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"titulo\": \"Workshop de Python para Dados\",\n  \"descricao\": \"Introdução à análise de dados com Python e Pandas.\",\n  \"data_evento\": \"2026-12-05 09:00:00\",\n  \"local\": \"Lab. Informática 01\",\n  \"vagas\": 25,\n  \"categoria_id\": 3\n}"
+      },
+      "_expectedStatus": 201
+    },
+    {
+      "id": "r05", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "5. Criar evento inválido (sem campos obrigatórios)",
+      "url": "http://localhost:3333/eventos",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"titulo\": \"Evento Incompleto\"\n}"
+      },
+      "_expectedStatus": 400
+    },
+    {
+      "id": "r06", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "6. Atualizar evento (id=1)",
+      "url": "http://localhost:3333/eventos/1",
+      "method": "PUT",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"titulo\": \"IA e Machine Learning — Atualizado\",\n  \"descricao\": \"Palestra atualizada com novos tópicos.\",\n  \"data_evento\": \"2026-11-05 10:00:00\",\n  \"local\": \"Auditório Principal — Bloco A\",\n  \"vagas\": 90,\n  \"categoria_id\": 1\n}"
+      },
+      "_expectedStatus": 200
+    },
+    {
+      "id": "r07", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "7. Excluir evento (use id de evento criado no teste 4)",
+      "url": "http://localhost:3333/eventos/8",
+      "method": "DELETE",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 204,
+      "_note": "Ajuste o ID conforme o insertId retornado no teste 4"
+    },
+    {
+      "id": "r08", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "8. Listar inscritos no evento 1",
+      "url": "http://localhost:3333/eventos/1/inscritos",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 200
+    },
+    {
+      "id": "r09", "colId": "eventosenai-collection-001", "containerId": "f2",
+      "name": "9. Listar participantes",
+      "url": "http://localhost:3333/participantes",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 200
+    },
+    {
+      "id": "r10", "colId": "eventosenai-collection-001", "containerId": "f2",
+      "name": "10. Cadastrar participante válido",
+      "url": "http://localhost:3333/participantes",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Lucas Andrade Reis\",\n  \"email\": \"lucas.reis@aluno.senai.br\",\n  \"turma\": \"idev4\"\n}"
+      },
+      "_expectedStatus": 201
+    },
+    {
+      "id": "r11", "colId": "eventosenai-collection-001", "containerId": "f2",
+      "name": "11. Tentar cadastrar e-mail duplicado",
+      "url": "http://localhost:3333/participantes",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Lucas Duplicado\",\n  \"email\": \"lucas.reis@aluno.senai.br\",\n  \"turma\": \"idev4\"\n}"
+      },
+      "_expectedStatus": 409,
+      "_expectedBody": { "erro": "E-mail já cadastrado." }
+    },
+    {
+      "id": "r12", "colId": "eventosenai-collection-001", "containerId": "f3",
+      "name": "12. Realizar inscrição válida (participante 8 no evento 2)",
+      "url": "http://localhost:3333/inscricoes",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"evento_id\": 2,\n  \"participante_id\": 8\n}"
+      },
+      "_expectedStatus": 201
+    },
+    {
+      "id": "r13", "colId": "eventosenai-collection-001", "containerId": "f3",
+      "name": "13. Tentar inscrição duplicada",
+      "url": "http://localhost:3333/inscricoes",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"evento_id\": 2,\n  \"participante_id\": 8\n}"
+      },
+      "_expectedStatus": 409,
+      "_expectedBody": { "erro": "Participante já inscrito neste evento." }
+    },
+    {
+      "id": "r14", "colId": "eventosenai-collection-001", "containerId": "f3",
+      "name": "14. Tentar inscrição em evento lotado (evento 6 — 20 vagas, faça inscrições antes)",
+      "url": "http://localhost:3333/inscricoes",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"evento_id\": 6,\n  \"participante_id\": 1\n}"
+      },
+      "_expectedStatus": 409,
+      "_note": "Para testar: reduza as vagas do evento 6 para 1 via PUT /eventos/6, depois tente inscrever um participante já inscrito + outro",
+      "_expectedBody": { "erro": "Evento lotado." }
+    },
+    {
+      "id": "r15", "colId": "eventosenai-collection-001", "containerId": "f3",
+      "name": "15. Cancelar inscrição (id=1)",
+      "url": "http://localhost:3333/inscricoes/1",
+      "method": "DELETE",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 204
+    },
+    {
+      "id": "r16", "colId": "eventosenai-collection-001", "containerId": "f3",
+      "name": "16. Cancelar inscrição inexistente",
+      "url": "http://localhost:3333/inscricoes/9999",
+      "method": "DELETE",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 404,
+      "_expectedBody": { "erro": "Inscrição não encontrada." }
+    },
+    {
+      "id": "r17", "colId": "eventosenai-collection-001", "containerId": "f1",
+      "name": "17. Saúde da API",
+      "url": "http://localhost:3333/health",
+      "method": "GET",
+      "headers": [],
+      "body": { "type": "none" },
+      "_expectedStatus": 200
+    }
+  ]
+}
